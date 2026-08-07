@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     HF_MODEL: str = "HuggingFaceH4/zephyr-7b-beta"
 
     # CORS
-    CORS_ORIGINS: list[str] = ["http://localhost:3000", "http://localhost:8501"]
+    CORS_ORIGINS: list[str] = ["http://localhost:3000", "http://localhost:8501","https://skylark-business-agent.vercel.app"]
 
     # Logging
     LOG_LEVEL: str = "INFO"
