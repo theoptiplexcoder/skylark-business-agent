@@ -294,35 +294,36 @@ export default function ChatConversationPage({
 
   return (
     <div className="flex h-full overflow-hidden">
-      <div className="flex-1 flex flex-col min-w-0 bg-background relative">
-        {messages.length === 0 ? (
-          <div className="flex-1 flex flex-col items-center justify-center p-8 text-center max-w-3xl mx-auto w-full">
-            <div className="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
-              <Sparkles className="h-8 w-8 text-primary" />
+      <div className="flex-1 flex flex-col min-w-0 bg-background relative h-full">
+        {/* Scrollable messages area */}
+        <div className="flex-1 overflow-y-auto min-h-0">
+          {messages.length === 0 ? (
+            <div className="flex-1 flex flex-col items-center justify-center p-8 text-center max-w-3xl mx-auto w-full min-h-full">
+              <div className="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+                <Sparkles className="h-8 w-8 text-primary" />
+              </div>
+              <h2 className="text-3xl font-bold mb-3">
+                Conversation {conversationId}
+              </h2>
+              <p className="text-muted-foreground mb-10 max-w-md">
+                Ask any question about your business data. I&apos;m connected to
+                your monday.com workspace in real-time.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full">
+                {suggestedPrompts.map((prompt, i) => (
+                  <Button
+                    key={i}
+                    variant="outline"
+                    className="justify-start h-auto py-3 px-4 rounded-xl text-left font-normal bg-card hover:border-primary/50"
+                    onClick={() => setInput(prompt)}
+                  >
+                    {prompt}
+                  </Button>
+                ))}
+              </div>
             </div>
-            <h2 className="text-3xl font-bold mb-3">
-              Conversation {conversationId}
-            </h2>
-            <p className="text-muted-foreground mb-10 max-w-md">
-              Ask any question about your business data. I&apos;m connected to
-              your monday.com workspace in real-time.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full">
-              {suggestedPrompts.map((prompt, i) => (
-                <Button
-                  key={i}
-                  variant="outline"
-                  className="justify-start h-auto py-3 px-4 rounded-xl text-left font-normal bg-card hover:border-primary/50"
-                  onClick={() => setInput(prompt)}
-                >
-                  {prompt}
-                </Button>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <ScrollArea className="flex-1" ref={scrollRef}>
-            <div className="max-w-3xl mx-auto space-y-8 p-4 md:p-8 pb-4">
+          ) : (
+            <div ref={scrollRef} className="max-w-3xl mx-auto space-y-8 p-4 md:p-8 pb-4">
               {messages.map((msg) => (
                 <div
                   key={msg.id}
@@ -426,10 +427,11 @@ export default function ChatConversationPage({
                 </div>
               )}
             </div>
-          </ScrollArea>
-        )}
+          )}
+        </div>
 
-        <div className="p-4 bg-background border-t">
+        {/* Sticky input at bottom */}
+        <div className="shrink-0 p-4 bg-background border-t sticky bottom-0 z-10">
           <div className="max-w-3xl mx-auto relative flex items-end gap-2">
             <div className="relative flex-1 bg-card rounded-2xl border shadow-sm focus-within:ring-1 focus-within:ring-ring focus-within:border-primary transition-all">
               <Input
